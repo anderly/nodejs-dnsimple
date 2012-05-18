@@ -1,0 +1,336 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Nodejs-dnsimple by fvdm</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Nodejs-dnsimple</h1>
+        <p>Unofficial DNSimple module for Node.js</p>
+        <p class="view"><a href="https://github.com/fvdm/nodejs-dnsimple">View the Project on GitHub <small>fvdm/nodejs-dnsimple</small></a></p>
+        <ul>
+          <li><a href="https://github.com/fvdm/nodejs-dnsimple/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/fvdm/nodejs-dnsimple/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/fvdm/nodejs-dnsimple">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <p><a href="http://travis-ci.org/fvdm/nodejs-dnsimple"><img src="https://secure.travis-ci.org/fvdm/nodejs-dnsimple.png?branch=master" alt="Build Status"></a></p>
+
+<h1>nodejs-dnsimple</h1>
+
+<p>This is an unofficial <a href="http://dnsimple.com/">DNSimple</a> API module for <a href="http://nodejs.org/">Node.js</a>. You need a DNSimple account to use this.</p>
+
+<h1>Installation</h1>
+
+<pre><code>npm install dnsimple
+</code></pre>
+
+<h1>Usage</h1>
+
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">dnsimple</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'dnsimple'</span><span class="p">);</span>
+
+<span class="nx">dnsimple</span><span class="p">.</span><span class="nx">api</span><span class="p">.</span><span class="nx">email</span> <span class="o">=</span> <span class="s1">'your@email.tld'</span><span class="p">;</span>
+<span class="nx">dnsimple</span><span class="p">.</span><span class="nx">api</span><span class="p">.</span><span class="nx">token</span> <span class="o">=</span> <span class="s1">'your API token'</span><span class="p">;</span>
+
+<span class="nx">dnsimple</span><span class="p">.</span><span class="nx">domains</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span> <span class="s1">'example.tld'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">domain</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">domain</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span><span class="s1">' created with ID '</span><span class="o">+</span> <span class="nx">domain</span><span class="p">.</span><span class="nx">id</span> <span class="p">);</span>
+<span class="p">});</span>
+</pre>
+</div>
+
+
+<h2>Authentication</h2>
+
+<p>The module supports both authentication by <strong>email:token</strong> and <strong>email:password</strong>. The <em>token</em> is more secure as it can easily be reset in account at <a href="https://dnsimple.com/account">dnsimple.com/account</a>. The password uses HTTP Basic Authentication.</p>
+
+<h3>Token</h3>
+
+<div class="highlight">
+<pre><span class="nx">dnsimple</span><span class="p">.</span><span class="nx">api</span><span class="p">.</span><span class="nx">email</span> <span class="o">=</span> <span class="s1">'your@email.tld'</span><span class="p">;</span>
+<span class="nx">dnsimple</span><span class="p">.</span><span class="nx">api</span><span class="p">.</span><span class="nx">token</span> <span class="o">=</span> <span class="s1">'12345abcde'</span><span class="p">;</span>
+</pre>
+</div>
+
+
+<h3>Password</h3>
+
+<div class="highlight">
+<pre><span class="nx">dnsimple</span><span class="p">.</span><span class="nx">api</span><span class="p">.</span><span class="nx">email</span> <span class="o">=</span> <span class="s1">'your@email.tld'</span><span class="p">;</span>
+<span class="nx">dnsimple</span><span class="p">.</span><span class="nx">api</span><span class="p">.</span><span class="nx">password</span> <span class="o">=</span> <span class="s1">'secret'</span><span class="p">;</span>
+</pre>
+</div>
+
+
+<h1>Functions</h1>
+
+<p>The functions all allow a callback parameter at the end. The first arguement is always the intended result object or array.</p>
+
+<p><strong>cb = callback function()</strong></p>
+
+<h2>domains</h2>
+
+<h3>domains.list ( simpleBool, cb )</h3>
+
+<p>List domainnames in account.</p>
+
+<div class="highlight">
+<pre><span class="nx">dnsimple</span><span class="p">.</span><span class="nx">domains</span><span class="p">.</span><span class="nx">list</span><span class="p">(</span> <span class="kc">false</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">domains</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">domains</span> <span class="p">);</span>
+<span class="p">});</span>
+</pre>
+</div>
+
+
+<p><strong>simpleBool</strong> true</p>
+
+<p>A simple <em>array</em> with domainnames.</p>
+
+<pre lang="ks"><code>[ 'one.com',
+  'two.net',
+  'three.nl' ]
+</code></pre>
+
+<p><strong>simpleBool</strong> false</p>
+
+<p>An object with domainnames details, the keys are their IDs.</p>
+
+<div class="highlight">
+<pre><span class="p">{</span> <span class="s1">'123'</span><span class="o">:</span> 
+   <span class="p">{</span> <span class="nx">auto_renew</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+     <span class="nx">created_at</span><span class="o">:</span> <span class="s1">'2011-01-09T02:24:58Z'</span><span class="p">,</span>
+     <span class="nx">expires_at</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+     <span class="nx">id</span><span class="o">:</span> <span class="mi">123</span><span class="p">,</span>
+     <span class="nx">language</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+     <span class="nx">last_name_server_status_check</span><span class="o">:</span> <span class="s1">'2012-05-18T18:53:24Z'</span><span class="p">,</span>
+     <span class="nx">lockable</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+     <span class="nx">name</span><span class="o">:</span> <span class="s1">'one.com'</span><span class="p">,</span>
+     <span class="nx">name_server_status</span><span class="o">:</span> <span class="s1">'inactive'</span><span class="p">,</span>
+     <span class="nx">parsed_expiration_date</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+     <span class="nx">real_time</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+     <span class="nx">registrant_id</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+     <span class="nx">registration_status</span><span class="o">:</span> <span class="s1">'hosted'</span><span class="p">,</span>
+     <span class="nx">state</span><span class="o">:</span> <span class="s1">'hosted'</span><span class="p">,</span>
+     <span class="nx">token</span><span class="o">:</span> <span class="s1">'Zp1J...'</span><span class="p">,</span>
+     <span class="nx">unicode_name</span><span class="o">:</span> <span class="s1">'one.com'</span><span class="p">,</span>
+     <span class="nx">updated_at</span><span class="o">:</span> <span class="s1">'2012-05-18T18:53:24Z'</span><span class="p">,</span>
+     <span class="nx">use_route53</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+     <span class="nx">user_id</span><span class="o">:</span> <span class="mi">121</span><span class="p">,</span>
+     <span class="nx">uses_external_name_servers</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+     <span class="nx">record_count</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+     <span class="nx">service_count</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+     <span class="s1">'private_whois?'</span><span class="o">:</span> <span class="kc">false</span> <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h3>domains.findByRegex ( regexString, cb )</h3>
+
+<p>List only domains with names matching on regex.</p>
+
+<div class="highlight">
+<pre><span class="c1">// All .com domains</span>
+<span class="nx">dnsimple</span><span class="p">.</span><span class="nx">domains</span><span class="p">.</span><span class="nx">findByRegex</span><span class="p">(</span> <span class="s1">'\.com$'</span><span class="p">,</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="p">);</span>
+</pre>
+</div>
+
+
+<h3>domains.show ( domainname, cb )</h3>
+
+<p>Get details about one domainname</p>
+
+<div class="highlight">
+<pre><span class="nx">dnsimple</span><span class="p">.</span><span class="nx">domains</span><span class="p">.</span><span class="nx">show</span><span class="p">(</span> <span class="s1">'one.com'</span><span class="p">,</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="p">);</span>
+</pre>
+</div>
+
+
+<h3>domains.add ( domainname, cb )</h3>
+
+<p>Add a domain to your account</p>
+
+<div class="highlight">
+<pre><span class="nx">dnsimple</span><span class="p">.</span><span class="nx">domains</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span> <span class="s1">'two.com'</span><span class="p">,</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="p">);</span>
+</pre>
+</div>
+
+
+<h3>domains.delete ( domainname, cb )</h3>
+
+<p>Delete a domains and its DNS records from your account</p>
+
+<div class="highlight">
+<pre><span class="nx">dnsimple</span><span class="p">.</span><span class="nx">domains</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span> <span class="s1">'two.com'</span><span class="p">,</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="p">);</span>
+</pre>
+</div>
+
+
+<h3>domains.services.list ( domainname, cb )</h3>
+
+<p>List applied services (vendor presets) for a domain</p>
+
+<div class="highlight">
+<pre><span class="nx">dnsimple</span><span class="p">.</span><span class="nx">domains</span><span class="p">.</span><span class="nx">services</span><span class="p">.</span><span class="nx">list</span><span class="p">(</span> <span class="s1">'one.com'</span><span class="p">,</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="p">);</span>
+</pre>
+</div>
+
+
+<h3>domains.services.available ( domainname, cb )</h3>
+
+<p>List available services for a domain</p>
+
+<div class="highlight">
+<pre><span class="nx">dnsimple</span><span class="p">.</span><span class="nx">domains</span><span class="p">.</span><span class="nx">services</span><span class="p">.</span><span class="nx">available</span><span class="p">(</span> <span class="s1">'one.com'</span><span class="p">,</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="p">);</span>
+</pre>
+</div>
+
+
+<h3>domains.services.add ( domainname, serviceID, cb )</h3>
+
+<p>Apply a service to a domain</p>
+
+<p><strong>serviceID</strong> can be a service <em>numeric</em> ID or its <em>shortname</em></p>
+
+<div class="highlight">
+<pre><span class="c1">// Apply Heroku presets to one.com</span>
+<span class="nx">dnsimple</span><span class="p">.</span><span class="nx">domains</span><span class="p">.</span><span class="nx">services</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span> <span class="s1">'one.com'</span><span class="p">,</span> <span class="s1">'heroku'</span><span class="p">,</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="p">);</span>
+</pre>
+</div>
+
+
+<h3>domains.services.delete ( domainname, serviceID, cb )</h3>
+
+<p>Remove a service from a domain</p>
+
+<p><strong>serviceID</strong> can be a service <em>numeric</em> ID or its <em>shortname</em></p>
+
+<div class="highlight">
+<pre><span class="c1">// Remove Heroku presets from one.com</span>
+<span class="nx">dnsimple</span><span class="p">.</span><span class="nx">domains</span><span class="p">.</span><span class="nx">services</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span> <span class="s1">'one.com'</span><span class="p">,</span> <span class="s1">'heroku'</span><span class="p">,</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="p">);</span>
+</pre>
+</div>
+
+
+<h3>domains.template ( domainname, templateID, cb )</h3>
+
+<p>Apply a template (custom presets) to a domain. This is an alias for <em>templates.apply</em>.</p>
+
+<p><strong>serviceID</strong> can be a service <em>numeric</em> ID or its <em>shortname</em></p>
+
+<div class="highlight">
+<pre><span class="c1">// Apply your office records to one.com</span>
+<span class="nx">dnsimple</span><span class="p">.</span><span class="nx">domains</span><span class="p">.</span><span class="nx">template</span><span class="p">(</span> <span class="s1">'one.com'</span><span class="p">,</span> <span class="s1">'office'</span><span class="p">,</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="p">);</span>
+</pre>
+</div>
+
+
+<h2>DNS</h2>
+
+<h3>dns.list ( domainname, cb )</h3>
+
+<p>List DNS records for a domain</p>
+
+<div class="highlight">
+<pre><span class="nx">dnsimple</span><span class="p">.</span><span class="nx">dns</span><span class="p">.</span><span class="nx">list</span><span class="p">(</span> <span class="s1">'one.com'</span><span class="p">,</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="p">);</span>
+</pre>
+</div>
+
+
+<h3>dns.show ( domainname, recordID cb )</h3>
+
+<p>Get DNS record details for a <em>recordID</em> on <em>domainname</em></p>
+
+<div class="highlight">
+<pre><span class="nx">dnsimple</span><span class="p">.</span><span class="nx">dns</span><span class="p">.</span><span class="nx">show</span><span class="p">(</span> <span class="s1">'one.com'</span><span class="p">,</span> <span class="mi">1234</span><span class="p">,</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="p">);</span>
+</pre>
+</div>
+
+
+<p>Returns an object with the record details:</p>
+
+<div class="highlight">
+<pre><span class="p">{</span> <span class="nx">content</span><span class="o">:</span> <span class="s1">'4.3.2.1'</span><span class="p">,</span>
+  <span class="nx">created_at</span><span class="o">:</span> <span class="s1">'2011-03-31T01:21:08Z'</span><span class="p">,</span>
+  <span class="nx">domain_id</span><span class="o">:</span> <span class="mi">123</span><span class="p">,</span>
+  <span class="nx">domain_service_id</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+  <span class="nx">id</span><span class="o">:</span> <span class="mi">1234</span><span class="p">,</span>
+  <span class="nx">name</span><span class="o">:</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="nx">pdns_identifier</span><span class="o">:</span> <span class="s1">'112233'</span><span class="p">,</span>
+  <span class="nx">prio</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+  <span class="nx">record_type</span><span class="o">:</span> <span class="s1">'A'</span><span class="p">,</span>
+  <span class="nx">special_type</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+  <span class="nx">ttl</span><span class="o">:</span> <span class="mi">3600</span><span class="p">,</span>
+  <span class="nx">updated_at</span><span class="o">:</span> <span class="s1">'2011-11-28T20:39:51Z'</span> <span class="p">}</span>
+</pre>
+</div>
+
+
+<h3>dns.add ( domainname, recordObject, cb )</h3>
+
+<p><strong>Required:</strong> name, record_type, content</p>
+
+<p><strong>Optional:</strong> ttl, prio</p>
+
+<div class="highlight">
+<pre><span class="nx">dnsimple</span><span class="p">.</span><span class="nx">dns</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span>
+    <span class="s1">'one.com'</span><span class="p">,</span>
+    <span class="p">{</span>
+        <span class="nx">name</span><span class="o">:</span>           <span class="s1">'www'</span><span class="p">,</span>
+        <span class="nx">record_type</span><span class="o">:</span>    <span class="s1">'A'</span><span class="p">,</span>
+        <span class="nx">content</span><span class="o">:</span>        <span class="s1">'4.3.2.1'</span>
+    <span class="p">},</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">()</span>
+<span class="p">);</span>
+</pre>
+</div>
+
+
+<h3>dns.update ( domainname, recordID, cb )</h3>
+
+<p>Replace a record's details, same syntax as <strong>dns.add</strong>.</p>
+
+<h3>dns.delete ( domainname, recordID, cb )</h3>
+
+<p>Delete a DNS record from a domain.</p>
+
+<div class="highlight">
+<pre><span class="nx">dnsimple</span><span class="p">.</span><span class="nx">dns</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span> <span class="s1">'one.com'</span><span class="p">,</span> <span class="mi">1234</span> <span class="p">);</span>
+</pre>
+</div>
+
+
+<h1>License</h1>
+
+<p>This module is <strong>copyleft</strong> meaning you can do anything you want except copyrighting it. It would be nice to refer back to <a href="http://github.com/fvdm/nodejs-dnsimple">http://github.com/fvdm/nodejs-dnsimple</a> for later reference.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/fvdm">fvdm</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-3580504-55");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
